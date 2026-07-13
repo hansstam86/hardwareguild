@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What members are building — Hardware Guild</title>
+<meta name="description" content="Projects, companies, and open hardware built by members of the Hardware Guild.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Hanken+Grotesk:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --board:#0B1015;--board-2:#111A22;--panel:#0F171E;
+    --copper:#C67B3C;--copper-bright:#E4A85C;--gold:#EBBE73;
+    --silk:#ECEAE1;--slate:#7E8C97;
+    --line:rgba(198,123,60,.18);--line-soft:rgba(126,140,151,.14);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--board);color:var(--silk);
+    font-family:'Hanken Grotesk',system-ui,sans-serif;font-size:17px;line-height:1.6;
+    -webkit-font-smoothing:antialiased;overflow-x:hidden;
+    background-image:radial-gradient(rgba(198,123,60,.05) 1px,transparent 1.4px);
+    background-size:26px 26px;min-height:100vh;
+  }
+  .silk{font-family:'Space Mono',monospace;text-transform:uppercase;letter-spacing:.22em;font-size:.72rem;color:var(--slate)}
+  .ref{font-family:'Space Mono',monospace;color:var(--copper);letter-spacing:.18em;font-size:.74rem;text-transform:uppercase}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 28px}
+
+  .rail{border-bottom:1px solid var(--line);background:linear-gradient(180deg,rgba(15,23,30,.6),transparent)}
+  .rail .wrap{display:flex;justify-content:space-between;align-items:center;height:46px}
+  .rail .silk{font-size:.66rem}
+  .rail a{color:var(--slate);text-decoration:none;transition:color .2s ease}
+  .rail a:hover{color:var(--copper)}
+  .dotline{flex:1;height:1px;margin:0 18px;background:repeating-linear-gradient(90deg,var(--line) 0 6px,transparent 6px 12px)}
+
+  /* page header */
+  .page-head{padding:60px 0 40px;border-bottom:1px solid var(--line-soft)}
+  .page-head .ref{display:block;margin-bottom:18px}
+  .page-head h1{
+    font-family:'Archivo Black',sans-serif;text-transform:uppercase;
+    font-size:clamp(2.2rem,5.4vw,3.6rem);line-height:.98;letter-spacing:-.015em;color:var(--silk)}
+  .page-head h1 span{color:var(--copper)}
+  .page-head .lead{margin-top:22px;max-width:60ch;font-size:1.14rem;color:#C6CED4}
+  .page-head .lead b{color:var(--silk);font-weight:700}
+
+  /* builds grid */
+  .builds{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;padding:44px 0}
+  .build{
+    display:block;text-decoration:none;position:relative;
+    background:var(--panel);border:1px solid var(--line);border-radius:6px;
+    padding:24px 24px 26px;overflow:hidden;
+    transition:transform .16s ease,border-color .2s ease,background .2s ease}
+  .build:hover{transform:translateY(-3px);border-color:var(--copper);background:var(--board-2)}
+  .build .dom{font-family:'Space Mono',monospace;font-size:.72rem;letter-spacing:.06em;color:var(--copper);text-transform:lowercase;display:block;margin-bottom:10px}
+  .build h3{font-weight:800;font-size:1.24rem;color:var(--gold);margin-bottom:8px}
+  .build p{font-size:.98rem;color:#B4BEC6;line-height:1.5;max-width:42ch}
+  .build .arrow{position:absolute;top:22px;right:22px;color:var(--slate);transition:color .2s ease,transform .2s ease}
+  .build:hover .arrow{color:var(--copper);transform:translate(2px,-2px)}
+
+  /* CTA strip */
+  .cta-strip{
+    text-align:center;padding:56px 0 72px;border-top:1px solid var(--line-soft);
+    background:radial-gradient(120% 140% at 50% 0%,rgba(198,123,60,.07),transparent 60%)}
+  .cta-strip .ref{display:block;margin-bottom:16px}
+  .cta-strip h2{font-family:'Hanken Grotesk';font-weight:800;font-size:clamp(1.5rem,3.4vw,2.1rem);margin-bottom:12px}
+  .cta-strip p{max-width:48ch;margin:0 auto 28px;color:#C6CED4}
+  .cta-strip p b{color:var(--silk)}
+  .btn{
+    display:inline-flex;align-items:center;gap:11px;
+    font-family:'Space Mono',monospace;font-weight:700;font-size:.9rem;
+    text-transform:uppercase;letter-spacing:.08em;text-decoration:none;
+    background:var(--copper);color:#160D05;padding:15px 26px;border-radius:3px;
+    border:1px solid var(--copper-bright);
+    transition:transform .15s ease,background .2s ease,box-shadow .2s ease}
+  .btn:hover{background:var(--copper-bright);transform:translateY(-2px);box-shadow:0 8px 26px rgba(198,123,60,.32)}
+  .btn.ghost{background:transparent;color:var(--copper);border-color:var(--line)}
+  .btn.ghost:hover{background:rgba(198,123,60,.08);color:var(--copper-bright);box-shadow:none}
+  .btn-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+
+  footer{border-top:1px solid var(--line);padding:22px 0}
+  footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+  footer .silk{font-size:.66rem}
+  footer a{color:var(--slate);text-decoration:none}
+  footer a:hover{color:var(--copper)}
+
+  @media (max-width:820px){
+    .builds{grid-template-columns:1fr}
+  }
+  @media (prefers-reduced-motion:reduce){.btn,.build{transition:none}}
+</style>
+</head>
+<body>
+
+  <div class="rail">
+    <div class="wrap">
+      <a class="silk" href="index.html">← Hardware Guild</a>
+      <span class="dotline"></span>
+      <span class="silk">EU · OPEN SOURCE</span>
+    </div>
+  </div>
+
+  <header class="page-head">
+    <div class="wrap">
+      <span class="ref">DIR · MEMBERS</span>
+      <h1>What members<br><span>are building</span></h1>
+      <p class="lead">Projects, open hardware, and companies from people in the Guild. Some are weekend builds, some are funded ventures, all of them come from members. <b>Building something? It can go here.</b></p>
+    </div>
+  </header>
+
+  <section class="wrap">
+    <div class="builds">
+      <a class="build" href="https://eilbek-research.de/" target="_blank" rel="noopener">
+        <span class="arrow" aria-hidden="true">↗</span>
+        <span class="dom">eilbek-research.de</span>
+        <h3>Eilbek Research</h3>
+        <p>Hamburg engineering firm doing electronics, mechatronics, software and networked systems. Real-world hardware, built right and built fast.</p>
+      </a>
+      <a class="build" href="https://www.hardwaremap.eu/" target="_blank" rel="noopener">
+        <span class="arrow" aria-hidden="true">↗</span>
+        <span class="dom">hardwaremap.eu</span>
+        <h3>Hardware Map</h3>
+        <p>A living map of Europe's hardware and maker spaces. 69 spaces across 19 cities, and growing.</p>
+      </a>
+      <a class="build" href="https://atech.dev/" target="_blank" rel="noopener">
+        <span class="arrow" aria-hidden="true">↗</span>
+        <span class="dom">atech.dev</span>
+        <h3>Atech</h3>
+        <p>Hardware from a chat. Describe a device, get a working configuration and firmware for their modules in minutes.</p>
+      </a>
+      <a class="build" href="https://ohmatic.dev/" target="_blank" rel="noopener">
+        <span class="arrow" aria-hidden="true">↗</span>
+        <span class="dom">ohmatic.dev</span>
+        <h3>Ohmatic</h3>
+        <p>A deterministic circuit checker over HTTP and MCP. Your agent generates circuits, Ohmatic verifies them before they ship.</p>
+      </a>
+      <a class="build" href="https://seven-website.pages.dev/" target="_blank" rel="noopener">
+        <span class="arrow" aria-hidden="true">↗</span>
+        <span class="dom">seven-website.pages.dev</span>
+        <h3>Seven</h3>
+        <p>An open source LTE cellular IoT prototyping platform from ID8 Engineering. Built on the Nordic nRF9151 and Zephyr, open hardware end to end.</p>
+      </a>
+      <a class="build" href="https://palroc.com/" target="_blank" rel="noopener">
+        <span class="arrow" aria-hidden="true">↗</span>
+        <span class="dom">palroc.com</span>
+        <h3>PALROC Engineering</h3>
+        <p>Electronics engineering consultancy. IoT, embedded systems, PCB design and hardware development for companies.</p>
+      </a>
+      <a class="build" href="https://supplychat.ai/" target="_blank" rel="noopener">
+        <span class="arrow" aria-hidden="true">↗</span>
+        <span class="dom">supplychat.ai</span>
+        <h3>Supplychat</h3>
+        <p>Procurement AI for hardware makers. One spec in, ranked and vetted supplier offers out. Spec, search, vet, negotiate, order.</p>
+      </a>
+    </div>
+  </section>
+
+  <section class="cta-strip">
+    <span class="ref">J1 · CONNECT</span>
+    <h2>Want your build on this page?</h2>
+    <p>Join the Guild and post it in <b>#show-your-build</b>. Members' projects get featured here.</p>
+    <div class="btn-row">
+      <a class="btn" href="https://join.slack.com/t/hardwareguildeu/shared_invite/zt-43q143j1t-WRhFm7D6SfGql4DxlDGb8g">Join on Slack</a>
+      <a class="btn ghost" href="index.html">← Back home</a>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <a class="silk" href="index.html">Hardware Guild · hardwareguild.eu</a>
+      <span class="silk">Open source hardware · Europe · GND</span>
+    </div>
+  </footer>
+
+</body>
+</html>
